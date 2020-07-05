@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>crime and Uber/Lyft</title>
+    <style>
+        body{
+            background-image: url("../static/bg3.png");
+            text-align: center;
+            border-style: double;
+            border-color: white;
+            border-width: 30px;
+        }
+        h1{
+            color: cadetblue;
+            font-family:"Comic Sans MS";
+            background: white;
+            opacity: 0.8;
+            width: 500px;
+            margin-left: 250px;
+        }
+        h2{
+            color: dimgray;
+            font-family:"Comic Sans MS";
+            background: white;
+            opacity: 0.8;
+            width: 300px;
+            margin-left: 0px;
+        }
+        select {
+            font-family:"Comic Sans MS";
+            font-size: 120%;
+            color: chocolate;
+            height: 40px;
+            width: 100px;
+            opacity: 0.8;
+            text-align: center;
+        }
+        div{
+            font-family: "Comic Sans MS";
+            font-size: x-large;
+            color:sienna;
+        }
+        #chart1,#chart2,#chart3,#text1,#text2,#text3{
+            background:white;
+            opacity: 1;
+            margin-left: 50px;
+        }
+        #map {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 800px;
+            height: 400px;
+        }
+    </style>
+    <script src="../static/jquery.min.js"></script>
+    <script src="../static/echarts.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+    <script src="../static/chart1.js?73" type="text/javascript"></script>
+    <script src="../static/chart2.js?6s91" type="text/javascript"></script>
+    <script src="../static/chart3.js?6e91" type="text/javascript"></script>
+    <script src="../static/inquire.js?96" type="text/javascript"></script>
+</head>
+<body>
+    <br/><br/>
+    <h1>Boston Transportation Status with Crime Ratio Analysis</h1>
+
+    <!--block1-->
+    <h2>Lyft & Uber Statistics:</h2>
+        <!--menu1-->
+        <select id="menu1" onchange="draw1()">
+            <option value="a">source</option>
+            <option value="b">hour</option>
+            <option value="c">weather</option>
+        </select>
+        <br/><br/>
+        <!--chart1-->
+        <div style="display:flex; ">
+            <div id="chart1" style="width: 600px;height: 400px; background-color:white;margin-right:60px"> </div>
+            <div id="text1" style="margin-top:100px;width: 200px;height: 200px; background-color:white;"></div>
+        </div>
+        <hr>
+        <br/><br/>
+
+    <!--block2-->
+    <h2 style="width: 150px;">Crime:</h2>
+        <!--menu2-->
+        <select id="menu2" onchange="draw2()">
+            <option value="a">hour</option>
+            <option value="b">month</option>
+        </select>
+        <br/><br/>
+        <!--chart2-->
+        <div style="display:flex; ">
+            <div id="chart2" style="width: 600px;height: 400px; background-color:white;margin-right:60px"> </div>
+            <div id="text2" style="margin-top:100px;width: 200px;height: 200px; background-color:white;"></div>
+        </div>
+        <br/><br/>
+
+    <!--block3-->
+    <h2>Uber/Lyft and Crime:</h2>
+    <br/><br/><br/>
+        <!--map1-->
+        <div id = 'map'></div>
+        <script src="../static/map.js?rq6a"type="text/javascript"></script>
+        <br/><br/>
+
+    <!--block4-->
+    <h2 style="width: 250px">Cab Number & Crime:</h2>
+    <div style="display:flex; ">
+            <div id="chart3" style="width: 600px;height: 400px; background-color:white;margin-right:60px"> </div>
+            <div id="text3" style="margin-top:100px;width: 200px;height: 200px; background-color:white;"></div>
+    </div>
+
+    <!--block5-->
+    <h2 style="width: 150px">Inquire:</h2>
+    <select id="source" onchange="inquire()" style="width: 250px">
+        <option value="Others">Others</option>
+        <option value="Back Bay">Back Bay</option>
+        <option value="Beacon Hill">Beacon Hill</option>
+        <option value="Boston University">Boston University</option>
+        <option value="Fenway">Fenway</option>
+        <option value="Financial District">Financial District</option>
+        <option value="Haymarket Square">Haymarket Square</option>
+        <option value="North End">North End</option>
+        <option value="North Station">North Station</option>
+        <option value="Northeastern University">Northeastern University</option>
+        <option value="Theatre District">Theatre District</option>
+        <option value="West End">West End</option>
+        <option value="South Station">South Station</option>
+    </select>
+    <select id="destination" onchange="inquire()" style="width: 250px">
+        <option value="Others">Others</option>
+        <option value="Back Bay">Back Bay</option>
+        <option value="Beacon Hill">Beacon Hill</option>
+        <option value="Boston University">Boston University</option>
+        <option value="Fenway">Fenway</option>
+        <option value="Financial District">Financial District</option>
+        <option value="Haymarket Square">Haymarket Square</option>
+        <option value="North End">North End</option>
+        <option value="North Station">North Station</option>
+        <option value="Northeastern University">Northeastern University</option>
+        <option value="Theatre District">Theatre District</option>
+        <option value="West End">West End</option>
+        <option value="South Station">South Station</option>
+    </select>
+    <select id="hour" onchange="inquire()">
+        <option value="1">1:00am</option>
+        <option value="2">2:00am</option>
+        <option value="3">3:00am</option>
+        <option value="4">4:00am</option>
+        <option value="5">5:00am</option>
+        <option value="6">6:00am</option>
+        <option value="7">7:00am</option>
+        <option value="8">8:00am</option>
+        <option value="9">9:00am</option>
+        <option value="10">10:00am</option>
+        <option value="11">11:00am</option>
+        <option value="12">12:00pm</option>
+        <option value="13">1:00pm</option>
+        <option value="14">2:00pm</option>
+        <option value="15">3:00pm</option>
+        <option value="16">4:00pm</option>
+        <option value="17">5:00pm</option>
+        <option value="18">6:00pm</option>
+        <option value="19">7:00pm</option>
+        <option value="20">8:00pm</option>
+        <option value="21">9:00pm</option>
+        <option value="22">10:00pm</option>
+        <option value="23">11:00pm</option>
+        <option value="0">12:00pm</option>
+    </select>
+    <br/><br/>
+    <div style="margin-left:300px;background: white;opacity: 0.8;width: 450px;height: 500px">
+        <table>
+            <tr>
+                <th>Company</th>
+                <th>Type</th>
+                <th>Average Price</th>
+            </tr>
+            <tr>
+                <td>Lyft</td>
+                <td>Lux</td>
+                <td id="p1"></td>
+            </tr>
+            <tr>
+                <td>Lyft</td>
+                <td>Lux Black</td>
+                <td id="p2"></td>
+            </tr>
+            <tr>
+                <td>Lyft</td>
+                <td>Lux Black XL</td>
+                <td id="p3"></td>
+            </tr>
+            <tr>
+                <td>Lyft</td>
+                <td>Lyft</td>
+                <td id="p4"></td>
+            </tr>
+            <tr>
+                <td>Lyft</td>
+                <td>Lift XL</td>
+                <td id="p5"></td>
+            </tr>
+            <tr>
+                <td>Lyft</td>
+                <td>Shared</td>
+                <td id="p6"></td>
+            </tr>
+            <tr>
+                <td>Uber</td>
+                <td>Black</td>
+                <td id="p7"></td>
+            </tr>
+            <tr>
+                <td>Uber</td>
+                <td>Black SUV</td>
+                <td id="p8"></td>
+            </tr>
+            <tr>
+                <td>Uber</td>
+                <td>UberPool</td>
+                <td id="p9"></td>
+            </tr>
+            <tr>
+                <td>Uber</td>
+                <td>UberX</td>
+                <td id="p10"></td>
+            </tr>
+            <tr>
+                <td>Uber</td>
+                <td>UberXL</td>
+                <td id="p11"></td>
+            </tr>
+            <tr>
+                <td>Uber</td>
+                <td>WAV</td>
+                <td id="p12"></td>
+            </tr>
+    </table>
+    </div>
+
+    <br/><br/>
+
+</body>
+</html>
