@@ -2,19 +2,13 @@ from flask import Flask, render_template, jsonify, request, json
 import pymysql
 
 
-conn = pymysql.connect(host='localhost', user='root', passwd='WOSHIWEIWEI44', db='5200test')
+conn = pymysql.connect(host='localhost',user='root',passwd='WOSHIWEIWEI44',db='5200test')
 cursor=conn.cursor()
 
 app = Flask(__name__)
-
-
 @app.route('/')
 def dataload():
-    for i in jsonify(['haha', 23]):
-        print(i)
-    return jsonify(['haha', 23])
-    # return render_template("crime_cab.html")
-
+    return render_template("crime_cab.html")
 
 @app.route('/chart1')
 def chart1():
@@ -32,7 +26,6 @@ def chart1():
     print(data3)
     return jsonify([data1,data2,data3])
 
-
 @app.route('/chart2')
 def chart2():
     sql1 = "select hour,total,shoot from crime_shoot_hour "
@@ -43,14 +36,12 @@ def chart2():
     data2 = cursor.fetchall()
     return jsonify([data1,data2])
 
-
 @app.route('/chart3')
 def chart3():
     sql = "select district,crime,destination, departure from district_crime_destination_departure "
     cursor.execute(sql)
     data = cursor.fetchall()
     return jsonify(data)
-
 
 @app.route('/map')
 def map():
@@ -59,7 +50,6 @@ def map():
     cursor.execute(sql)
     data = cursor.fetchall()
     return jsonify(data)
-
 
 @app.route('/inquire', methods=['POST'])
 def inquire():
